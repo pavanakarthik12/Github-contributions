@@ -1,177 +1,257 @@
-# 🌟 GitHub Contributions Workshop Repo
+# 🌟 Portfolio Showcase Contribution Repo
 
-Welcome to the **Research and Innovation Team Introduction Project** 🚀
+Welcome to the **Research and Innovation Team Portfolio Showcase** 🚀
 
-This repository is created for our GitHub hands-on workshop to help first-year students learn how contributions work in a real project.
+This repository is created for our GitHub hands-on workshop to help first-year students learn how open-source contributions work in a real project.
 
-The project is built using **HTML, CSS, and JavaScript**.
+Each student will contribute by adding:
 
-Our goal is simple:
+* a short **intro card** on the main page
+* their own **portfolio page**
+* a working **View Portfolio** link
 
-> Learn how to contribute to a GitHub project by making small changes and creating a Pull Request.
-
----
-
-## 📌 What You Can Contribute
-
-You can contribute by doing simple tasks like:
-
-* Adding your profile / intro card
-* Improving the UI
-* Fixing alignment issues
-* Updating styles
-* Adding small JavaScript features
-* Fixing typos
-* Improving responsiveness
+This helps you learn real GitHub contribution workflow in a simple way.
 
 ---
 
-## 🚀 Steps to Contribute
+## 🎯 Contribution Flow
 
-Follow these steps carefully.
+Every student will work on **only their own section**.
 
-### 1) Fork the Repository
+The project structure is:
 
-Click the **Fork** button on the top-right corner of this repository.
-
-This creates your own copy of the project.
-
----
-
-### 2) Clone Your Fork
-
-Copy your forked repository link and run:
-
-```bash id="6wql4e"
-git clone https://github.com/yourusername/github-contributions.git
+```text id="h3k9p2"
+portfolio-showcase/
+│
+├── index.html
+├── style.css
+├── script.js
+│
+└── portfolios/
+    ├── john-doe.html
+    ├── karthik.html
+    ├── rahul.html
 ```
 
 ---
 
-### 3) Move into the Project Folder
+## 🌐 What You Need to Do
 
-```bash id="21hjzw"
-cd github-contributions
+You need to contribute in **2 places only**:
+
+### 1) Add Your Intro Card in `index.html`
+
+```html id="j7m2x5"
+<div class="card">
+    <h3>John Doe</h3>
+    <p>1st Year CSE</p>
+    <p>AI enthusiast and web developer</p>
+    <p>Passionate about building projects</p>
+    <a href="portfolios/john-doe.html">View Portfolio</a>
+</div>
 ```
+
+⚠️ Keep your intro within **4–5 lines only**
 
 ---
 
-### 4) Create a New Branch
+### 2) Create Your Own Portfolio Page
 
-Create a branch using **your name only**.
-
-For example, if your name is **John Doe**, use:
-
-```bash id="eqm8uw"
-git checkout -b john-doe
-```
-
-If your name is **Karthik**, use:
-
-```bash id="jafzhz"
-git checkout -b karthik
-```
-
-⚠️ Please remember your branch name, because you must use the **same name everywhere**.
-
----
-
-### 5) Sync with Latest Changes
-
-Before starting your work, always sync with the latest code from main.
-
-```bash id="x2e67d"
-git pull origin main
-```
-
-This helps avoid conflicts.
-
----
-
-### 6) Make Your Changes
-
-Now make your assigned changes.
-
-Examples:
-
-* Add your intro card
-* Improve button style
-* Fix spacing
-* Add animations
-
----
-
-### 7) Save Your Changes
-
-```bash id="0rshiy"
-git add .
-git commit -m "Added my contribution"
-```
-
----
-
-### 8) Push Your Branch
-
-Use the **same branch name you created earlier**.
-
-For example, if your branch is `john-doe`, then use:
-
-```bash id="3rm6g8"
-git push origin john-doe
-```
-
-If your branch is `karthik`, then use:
-
-```bash id="r1z89l"
-git push origin karthik
-```
-
-⚠️ Do not change the branch name here.
-Use the exact same name.
-
----
-
-### 9) Create Pull Request
-
-Go to GitHub and click **Compare & Pull Request**
-
-Fill the PR template and submit it.
-
----
-
-## 🔄 If Something Goes Wrong
-
-If you accidentally move to another branch or face an issue, you can always go back to your own branch.
-
-Use the **same branch name**.
-
-For example, if your branch is `john-doe`, use:
-
-```bash id="zw77dq"
-git checkout john-doe
-```
-
-If your branch is `karthik`, use:
-
-```bash id="n3rvw7"
-git checkout karthik
-```
-
-This will take you back to your branch.
-
----
-
-## 💡 Important Note
-
-Always use the **same branch name that you created in Step 4**.
+Inside the `portfolios/` folder, create **your own file only**
 
 Example:
 
-* Created branch → `john-doe`
-* Push command → `git push origin john-doe`
-* Go back command → `git checkout john-doe`
+```text id="v8q4t1"
+portfolios/john-doe.html
+```
 
-Use the same name in all places.
+---
+
+## 🚨 Important Guidelines
+
+### ✅ Edit Only Your Own Files
+
+Only edit:
+
+```text id="m2c6z8"
+index.html
+portfolios/your-name.html
+```
+
+Example:
+
+```text id="p9x1w3"
+index.html
+portfolios/john-doe.html
+```
+
+---
+
+### ❌ Do NOT Edit Others' Files
+
+Do not touch:
+
+* someone else’s card
+* someone else’s portfolio file
+* CSS unless assigned
+
+---
+
+## 🔄 ALWAYS PULL LATEST UPDATES
+
+Before you start working, **always run this command first**:
+
+```bash id="r4n7b2"
+git pull origin main
+```
+
+This gets the **latest file updates from the main branch**.
+
+⚠️ This is compulsory before starting your work.
+
+---
+
+## 🔁 Pull Again Before Pushing
+
+Before you push your changes, always pull once again:
+
+```bash id="w6k3m9"
+git pull origin main
+```
+
+This ensures you have the latest updates from others and helps avoid merge conflicts.
+
+So the flow is:
+
+```text id="x1v5c8"
+pull → edit → status → commit → pull → push
+```
+
+---
+
+## 🌿 Check Your Branch First
+
+Always check your branch:
+
+```bash id="t3q8n4"
+git branch
+```
+
+Example:
+
+```text id="d7m1p6"
+* john-doe
+  main
+```
+
+The `*` means current branch.
+
+---
+
+## 🔁 If You Are in the Wrong Branch
+
+Go back using your branch name.
+
+Example:
+
+```bash id="b2v9k7"
+git checkout john-doe
+```
+
+---
+
+## 👀 ALWAYS CHECK WHAT IS BEING EDITED
+
+Before committing or pushing, always run:
+
+```bash id="n5w2x8"
+git status
+```
+
+This shows what files are changed.
+
+Example:
+
+```text id="k8p4q1"
+modified: index.html
+modified: portfolios/john-doe.html
+```
+
+✅ correct
+
+If you see someone else’s file:
+
+```text id="s9v6m3"
+portfolios/rahul.html
+```
+
+❌ do not commit it
+
+---
+
+## 🚀 Contribution Steps
+
+### 1) Create Your Branch
+
+```bash id="f3t7x1"
+git checkout -b john-doe
+```
+
+---
+
+### 2) Pull Latest Updates
+
+```bash id="q6m2v9"
+git pull origin main
+```
+
+---
+
+### 3) Check Branch + Status
+
+```bash id="z4p8n5"
+git branch
+git status
+```
+
+---
+
+### 4) Add Your Card + Portfolio Page
+
+Edit only your own files
+
+---
+
+### 5) Save Changes
+
+```bash id="j1x9k4"
+git add .
+git commit -m "Added John Doe portfolio"
+```
+
+---
+
+### 6) Pull Latest Updates Again
+
+```bash id="u5c3m7"
+git pull origin main
+```
+
+⚠️ Always do this before pushing
+
+---
+
+### 7) Push Your Branch
+
+```bash id="l8v2n6"
+git push origin john-doe
+```
+
+---
+
+### 8) Create Pull Request
+
+Go to GitHub and raise your PR.
 
 ---
 
@@ -180,12 +260,10 @@ Use the same name in all places.
 By contributing here, you will learn:
 
 * Forking
-* Cloning
 * Branching
-* Commits
-* Pull Requests
-* Collaboration workflow
+* Pulling latest updates
+* Checking edited files
+* Creating portfolio pages
+* Raising Pull Requests
 
-This is how real open-source contributions happen 🚀
-
-Happy Contributing ✨
+Happy Contributing 🚀
