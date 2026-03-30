@@ -43,7 +43,7 @@
       </p>
 
       <div class="workflow-alert workflow-alert-strong">
-        <strong>Important:</strong> Do not make any changes in the main <strong>index.html</strong> file.
+        <strong>Important:</strong> Do not make any changes in the main <strong>index.html</strong> file. Your card is created automatically from your JSON file!
       </div>
 
       <div class="workflow-alert">
@@ -73,6 +73,21 @@
         <li>Do not edit shared files unless a mentor asks.</li>
       </ul>
 
+      <h3>1.1) Important: Automatic Updates (NO index.html Editing Needed!)</h3>
+      <div class="workflow-alert workflow-alert-strong">
+        <strong>You DO NOT need to edit index.html!</strong> The system automatically updates when you add files.
+      </div>
+      <ul class="workflow-list">
+        <li>When you add <strong>data/your-name.json</strong> and push to your branch</li>
+        <li>The <strong>JavaScript script automatically discovers</strong> your JSON file from the data/ folder</li>
+        <li>It reads your JSON data (name, year, intro, portfolio path)</li>
+        <li>It <strong>dynamically generates your card</strong> with proper layout and spacing</li>
+        <li>Your card appears on the index page <strong>instantly!</strong></li>
+        <li>No merge conflicts, no manual HTML editing</li>
+      </ul>
+      <p class="workflow-note"><strong>Your JSON File Format:</strong></p>
+      <pre class="workflow-code"><code>{\n  "name": "Your Name",\n  "year": "1st Year CSE",\n  "intro": "Your short intro about yourself",\n  "portfolio": "portfolios/your-name.html"\n}\n</code></pre>
+
       <h3>2) First Three Example Structures (Use the same pattern)</h3>
       <div class="workflow-grid">
         <div class="workflow-card">
@@ -92,17 +107,48 @@
         </div>
       </div>
 
-      <h3>2.1) JSON to Index Auto Display (How it works)</h3>
+      <h3>2.1) Why You Don't Edit index.html (Auto-Discovery System)</h3>
       <ul class="workflow-list">
-        <li>Add a valid file in <strong>data/your-name.json</strong>.</li>
-        <li>Use portfolio path as <strong>portfolios/your-name.html</strong>.</li>
-        <li>After push, index page picks up your JSON automatically and card layout auto-adjusts size, padding, and alignment.</li>
+        <li><strong>Automatic Discovery:</strong> The script.js scans the data/ folder for JSON files</li>
+        <li><strong>Dynamic Card Generation:</strong> It reads your JSON and creates your card automatically</li>
+        <li><strong>Smart Layout:</strong> Cards are sorted alphabetically and auto-adjust spacing</li>
+        <li><strong>Error Handling:</strong> If JSON is malformed, it shows a clear message</li>
+        <li><strong>GitHub API Fallback:</strong> Even works if directory listing is disabled</li>
       </ul>
 
-      <h3>3) Command Flow (Run in this order)</h3>
+      <div class="workflow-alert">
+        <strong>The Process:</strong><br>
+        You push your files → JavaScript runs → Discovers data/your-name.json → Reads it → Creates card → Displays on page 🎉
+      </div>
+
+      <h3>3) Add Upstream Remote (Do this once after cloning)</h3>
+      <p class="workflow-note"><strong>What is upstream?</strong> Upstream is the original repository. You need to add it so you can sync with the latest changes from the main project.</p>
+      <pre class="workflow-code"><code># Add upstream remote (do this only once)
+git remote add upstream &lt;original-repository-url&gt;
+
+# Verify it was added correctly
+git remote -v
+</code></pre>
+      <p class="workflow-note"><strong>Expected Output:</strong></p>
+      <pre class="workflow-code"><code>origin    https://github.com/your-username/portfolio-showcase.git (fetch)
+origin    https://github.com/your-username/portfolio-showcase.git (push)
+upstream  https://github.com/original-owner/portfolio-showcase.git (fetch)
+upstream  https://github.com/original-owner/portfolio-showcase.git (push)
+</code></pre>
+      <div class="workflow-alert">
+        <strong>Error: "error: remote upstream already exists"</strong><br>
+        <strong>Fix:</strong> You already added upstream before. Run <code>git remote -v</code> to verify it's correct. If wrong, remove and re-add:<br>
+        <pre class="workflow-code"><code>git remote remove upstream
+git remote add upstream &lt;correct-url&gt;</code></pre>
+      </div>
+
+      <h3>4) Command Flow (Run in this order)</h3>
       <pre class="workflow-code"><code># Clone once (skip if already cloned)
 git clone &lt;repository-url&gt;
 cd portfolio-showcase
+
+# Add upstream remote (if not done yet)
+git remote add upstream &lt;original-repository-url&gt;
 
 # Create Issue first on GitHub website and get assigned
 # Optional GitHub CLI alternative:
@@ -141,10 +187,80 @@ git push -u origin your-name
         <strong>GitHub website only</strong> (not CLI) and use the PR template from templates page.
       </p>
 
-      <h3>4) Final Step</h3>
+      <h3>5) Common Errors & Fixes</h3>
+      <div class="workflow-grid">
+        <div class="workflow-card">
+          <h4>❌ Error: "fatal: not a git repository"</h4>
+          <p><strong>Cause:</strong> You're not in correct folder.</p>
+          <p><strong>Fix:</strong></p>
+          <pre class="workflow-code"><code>cd portfolio-showcase
+git status</code></pre>
+        </div>
+        <div class="workflow-card">
+          <h4>❌ Error: "Your local changes would be overwritten"</h4>
+          <p><strong>Cause:</strong> Unsaved changes exist.</p>
+          <p><strong>Fix:</strong></p>
+          <pre class="workflow-code"><code>git add .
+git commit -m "Save changes"
+git pull origin main</code></pre>
+        </div>
+        <div class="workflow-card">
+          <h4>❌ Error: "no upstream branch"</h4>
+          <p><strong>Cause:</strong> Push without -u flag.</p>
+          <p><strong>Fix:</strong></p>
+          <pre class="workflow-code"><code>git push -u origin your-name</code></pre>
+        </div>
+        <div class="workflow-card">
+          <h4>❌ Merge Conflicts</h4>
+          <p><strong>Cause:</strong> Same file modified elsewhere.</p>
+          <p><strong>Fix:</strong> Remove conflict markers, keep code, then:</p>
+          <pre class="workflow-code"><code>git add .
+git commit -m "Resolved conflict"
+git push origin your-name</code></pre>
+        </div>
+      </div>
+
+      <h3>6) Automatic Updates from Upstream</h3>
+      <p class="workflow-note">Keep your fork synced with latest changes from original project:</p>
+      <pre class="workflow-code"><code># Fetch and merge upstream changes
+git fetch upstream
+git checkout main
+git merge upstream/main
+git push origin main
+
+# Or use this one-liner
+git fetch upstream &amp;&amp; git checkout main &amp;&amp; git merge upstream/main &amp;&amp; git push origin main
+</code></pre>
+      <p class="workflow-note">Run this regularly before making new changes!</p>
+
+      <h3>7) Final Step</h3>
       <p class="workflow-note">
         Open a Pull Request from <strong>your-name</strong> branch to <strong>main</strong> on GitHub website,
         and link your assigned Issue in PR description using <strong>Closes #issue-number</strong>.
+      </p>
+
+      <h3>8) Technical Deep Dive: How Auto-Discovery Works</h3>
+      <div class="workflow-grid">
+        <div class="workflow-card">
+          <h4>Step 1: File Discovery</h4>
+          <p><strong>The script.js scans the data/ folder</strong> and finds all JSON files automatically using GitHub API.</p>
+        </div>
+        <div class="workflow-card">
+          <h4>Step 2: JSON Loading</h4>
+          <p><strong>Each JSON file is fetched</strong> and parsed. Your contributor data is extracted safely.</p>
+        </div>
+        <div class="workflow-card">
+          <h4>Step 3: Card Generation</h4>
+          <p><strong>Dynamic HTML cards are created</strong> from your JSON data with proper escaping and error handling.</p>
+        </div>
+        <div class="workflow-card">
+          <h4>Step 4: Auto-Rendering</h4>
+          <p><strong>Cards are sorted alphabetically</strong> and displayed with smooth animations and responsive layout.</p>
+        </div>
+      </div>
+
+      <p class="workflow-note">
+        <strong>Why This Design?</strong> This approach avoids merge conflicts, makes contribution easy, and teaches you real-world practices like API integration and dynamic content generation!
       </p>
     </section>
   </main>

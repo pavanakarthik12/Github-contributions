@@ -39,19 +39,20 @@ portfolio-showcase/
 
 You need to contribute in **2 places only**:
 
-### 1) Add Your Intro Card in `index.html`
+### 1) Create Your JSON File in `data/` folder
 
-```html id="j7m2x5"
-<div class="card">
-    <h3>John Doe</h3>
-    <p>1st Year CSE</p>
-    <p>AI enthusiast and web developer</p>
-    <p>Passionate about building projects</p>
-    <a href="portfolios/john-doe.html">View Portfolio</a>
-</div>
+Add a JSON file named after yourself: `data/your-name.json`
+
+```json id="j7m2x5"
+{
+  "name": "John Doe",
+  "year": "1st Year CSE",
+  "intro": "AI enthusiast and web developer. Passionate about building projects",
+  "portfolio": "portfolios/john-doe.html"
+}
 ```
 
-⚠️ Keep your intro within **4–5 lines only**
+✅ The **index page automatically reads this JSON** and creates your card!
 
 ---
 
@@ -79,21 +80,55 @@ portfolios/john-doe.html
 
 ---
 
+## ⚡ How Automatic Updates Work
+
+**You DO NOT need to edit `index.html`!**
+
+Here's how the magic happens:
+
+1. **You add:** `data/your-name.json` + `portfolios/your-name.html`
+2. **The script automatically:**
+   - Discovers all JSON files in the `data/` folder
+   - Reads the JSON data
+   - Creates beautiful cards with your name, year, and intro
+   - Links to your portfolio page
+   - Displays everything on the index page **instantly**
+
+This happens with **zero manual edits** to `index.html`. The system is intelligent and handles:
+- ✅ Card layout and spacing
+- ✅ Proper links to your portfolio
+- ✅ Sorting contributors alphabetically
+- ✅ Error handling if JSON is malformed
+- ✅ Responsive design
+- ✅ GitHub API fallback if directory listing disabled
+
+**The Technology Stack:**
+- `script.js` scans the `data/` folder for JSON files
+- Uses GitHub API to discover files (works on static hosting!)
+- Dynamically generates HTML cards from JSON
+- No webpack, no build step needed - pure JavaScript
+
+---
+
+---
+
 ## 🚨 Important Guidelines
 
-### ✅ Edit Only Your Own Files
+### ✅ Edit ONLY Your Own Files
 
-Only edit:
+Only create/edit:
 
 ```text id="m2c6z8"
-index.html
+data/your-name.json
 portfolios/your-name.html
 ```
 
-Example:
+**Do NOT edit index.html** - The system automatically picks up your JSON file! ✨
+
+Example for john-doe:
 
 ```text id="p9x1w3"
-index.html
+data/john-doe.json
 portfolios/john-doe.html
 ```
 
@@ -212,7 +247,40 @@ cd portfolio-showcase
 
 ---
 
-### 2) Create Issue First and Get Assigned
+### 2) Add Upstream Remote (Do this once after cloning)
+
+**What is upstream?** Upstream is the original repository. You need to add it so you can sync with the latest changes from the main project.
+
+```bash id="u1p7x4"
+# Add upstream remote (do this only once)
+git remote add upstream <original-repository-url>
+
+# Verify it was added correctly
+git remote -v
+```
+
+**Expected Output:**
+
+```text id="u2p8x5"
+origin    https://github.com/your-username/portfolio-showcase.git (fetch)
+origin    https://github.com/your-username/portfolio-showcase.git (push)
+upstream  https://github.com/original-owner/portfolio-showcase.git (fetch)
+upstream  https://github.com/original-owner/portfolio-showcase.git (push)
+```
+
+⚠️ **If you get this error:**
+```text
+error: remote upstream already exists
+```
+**Fix:** You already added upstream before. Run `git remote -v` to verify it's correct. If it's wrong:
+```bash
+git remote remove upstream
+git remote add upstream <correct-url>
+```
+
+---
+
+### 3) Create Issue First and Get Assigned
 
 Use GitHub website first.
 
@@ -224,7 +292,7 @@ gh issue create --title "Add your-name portfolio" --body "I will add data/your-n
 
 ---
 
-### 3) Sync Main and Create Your Branch
+### 4) Sync Main and Create Your Branch
 
 ```bash id="f3t7x1"
 git checkout main
@@ -235,7 +303,7 @@ git pull origin main
 
 ---
 
-### 4) Make Your Changes Only in These Two Files
+### 5) Make Your Changes Only in These Two Files
 
 ```text id="q4w8m2"
 portfolios/your-name.html
@@ -244,7 +312,7 @@ data/your-name.json
 
 ---
 
-### 5) Check Changes and Add Only Your Files
+### 6) Check Changes and Add Only Your Files
 
 ```bash id="q6m2v9"
 git status
@@ -255,7 +323,7 @@ git add portfolios/john-doe.html data/john-doe.json
 
 ---
 
-### 6) Commit and Push to Your Branch
+### 7) Commit and Push to Your Branch
 
 ```bash id="z4p8n5"
 git commit -m "Add your-name portfolio"
@@ -264,7 +332,7 @@ git push -u origin your-name
 
 ---
 
-### 7) Raise Pull Request (Use PR Template)
+### 8) Raise Pull Request (Use PR Template)
 
 Create PR from `your-name` branch to `main`.
 
@@ -273,6 +341,84 @@ Optional GitHub CLI:
 ```bash id="t5r2n8"
 gh pr create --base main --head your-name --title "Add your-name portfolio files" --body "Closes #issue-number"
 ```
+
+---
+
+## ⚠️ Common Errors & How to Fix Them
+
+### Error: "fatal: not a git repository"
+**Cause:** You're not in the correct repository folder.
+
+**Fix:**
+```bash
+cd portfolio-showcase
+git status
+```
+
+---
+
+### Error: "Your local changes to the following files would be overwritten by merge"
+**Cause:** You have unsaved changes and tried to pull or checkout.
+
+**Fix:**
+```bash
+git add .
+git commit -m "Save my changes"
+git pull origin main
+```
+
+---
+
+### Error: "fatal: The current branch your-name has no upstream branch"
+**Cause:** You didn't use `-u` flag when pushing.
+
+**Fix:**
+```bash
+git push -u origin your-name
+# Or if already exists
+git push --set-upstream origin your-name
+```
+
+---
+
+### Error: "merge conflict" when pulling
+**Cause:** Someone modified the same file you're working on.
+
+**Fix:** Open the conflicting file and look for:
+```text
+<<<<<<< HEAD
+your code here
+=======
+their code here
+>>>>>>> branch-name
+```
+
+Delete conflict markers and keep the correct code, then:
+```bash
+git add .
+git commit -m "Resolved merge conflict"
+git push origin your-name
+```
+
+---
+
+## ✅ Automatic Updates from Upstream
+
+To keep your fork synced with the latest changes from the original project:
+
+```bash
+git fetch upstream
+git checkout main
+git merge upstream/main
+git push origin main
+```
+
+**Or use this one-liner:**
+```bash
+git fetch upstream && git checkout main && git merge upstream/main && git push origin main
+```
+
+Run this regularly to stay up-to-date before making new changes.
 
 ---
 

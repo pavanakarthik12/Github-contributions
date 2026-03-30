@@ -4,7 +4,16 @@ const jsonFileCount = document.getElementById("jsonFileCount");
 const cardCount = document.getElementById("cardCount");
 
 const DATA_DIR = "data";
-const DEFAULT_JSON_FILES = ["john-doe.json", "karthik.json", "rahul.json"];
+const DEFAULT_JSON_FILES = [
+  "karthik.json",
+  "Laasya.json",
+  "mohitha.json",
+  "rahul.json",
+  "rishi.json",
+];
+const AUTO_REFRESH_INTERVAL_MS = 20000;
+
+let lastRenderSignature = "";
 
 function normalizeJsonFileName(fileName) {
   return String(fileName || "").trim().split("/").pop() || "";
@@ -135,7 +144,7 @@ async function discoverJsonFiles() {
     DEFAULT_JSON_FILES.forEach((file) => discovered.add(file));
   }
 
-  return Array.from(discovered);
+  return Array.from(discovered).sort((a, b) => a.localeCompare(b));
 }
 
 async function loadContributors() {
@@ -194,35 +203,53 @@ function animateReveals() {
   });
 }
 
-async function renderContributors() {
+function buildRenderSignature({ contributors, discoveredFileCount, invalidFileCount }) {
+  const contributorKey = contributors
+    .map((contributor) => `${contributor.slug}:${contributor.name}:${contributor.portfolio}`)
+    .join("|");
+
+  return `${discoveredFileCount}::${invalidFileCount}::${contributorKey}`;
+}
+
+function renderContributorCards({ contributors, discoveredFileCount, invalidFileCount }) {
+  contributorsGrid.innerHTML = "";
+
+  if (jsonFileCount) {
+    jsonFileCount.textContent = `JSON Files: ${discoveredFileCount}`;
+  }
+
+  if (cardCount) {
+    cardCount.textContent = `Cards Shown: ${contributors.length}`;
+  }
+
+  if (contributors.length === 0) {
+    statusText.textContent = "No contributors found yet. Add JSON files in the data folder.";
+    return;
+  }
+
+  const cards = contributors.map((contributor) => buildCard(contributor));
+  cards.forEach((card) => contributorsGrid.appendChild(card));
+
+  if (invalidFileCount > 0) {
+    statusText.textContent = `Showing ${contributors.length} contributor${contributors.length > 1 ? "s" : ""}. ${invalidFileCount} JSON file${invalidFileCount > 1 ? "s were" : " was"} skipped due to invalid data. Auto-refresh runs every 20 seconds.`;
+  } else {
+    statusText.textContent = `Showing ${contributors.length} contributor${contributors.length > 1 ? "s" : ""}. Auto-refresh runs every 20 seconds.`;
+  }
+
+  animateReveals();
+}
+
+async function renderContributors({ isAutoRefresh = false } = {}) {
   try {
-    const { contributors, discoveredFileCount, invalidFileCount } = await loadContributors();
+    const renderState = await loadContributors();
+    const nextSignature = buildRenderSignature(renderState);
 
-    contributorsGrid.innerHTML = "";
-
-    if (jsonFileCount) {
-      jsonFileCount.textContent = `JSON Files: ${discoveredFileCount}`;
-    }
-
-    if (cardCount) {
-      cardCount.textContent = `Cards Shown: ${contributors.length}`;
-    }
-
-    if (contributors.length === 0) {
-      statusText.textContent = "No contributors found yet. Add JSON files in the data folder.";
+    if (isAutoRefresh && nextSignature === lastRenderSignature) {
       return;
     }
 
-    const cards = contributors.map((contributor) => buildCard(contributor));
-    cards.forEach((card) => contributorsGrid.appendChild(card));
-
-    if (invalidFileCount > 0) {
-      statusText.textContent = `Showing ${contributors.length} contributor${contributors.length > 1 ? "s" : ""}. ${invalidFileCount} JSON file${invalidFileCount > 1 ? "s were" : " was"} skipped due to invalid data.`;
-    } else {
-      statusText.textContent = `Showing ${contributors.length} contributor${contributors.length > 1 ? "s" : ""}.`;
-    }
-
-    animateReveals();
+    renderContributorCards(renderState);
+    lastRenderSignature = nextSignature;
   } catch (error) {
     statusText.textContent = "Unable to load contributors. Make sure you are running with a local server.";
     contributorsGrid.innerHTML = "";
@@ -234,8 +261,17 @@ async function renderContributors() {
     if (cardCount) {
       cardCount.textContent = "Cards Shown: 0";
     }
+
+    lastRenderSignature = "";
   }
+}
+
+function startAutoRefresh() {
+  window.setInterval(() => {
+    renderContributors({ isAutoRefresh: true });
+  }, AUTO_REFRESH_INTERVAL_MS);
 }
 
 animateReveals();
 renderContributors();
+startAutoRefresh();
