@@ -6,10 +6,14 @@ const cardCount = document.getElementById("cardCount");
 const DATA_DIR = "data";
 const DEFAULT_JSON_FILES = [
   "karthik.json",
+  "kautilya.json",
   "Laasya.json",
+  "Minhaj.json",
   "mohitha.json",
   "rahul.json",
   "rishi.json",
+  "Sathvika.json",
+  "syed-anas.json",
 ];
 const AUTO_REFRESH_INTERVAL_MS = 20000;
 
